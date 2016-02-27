@@ -7,7 +7,8 @@ function Lab4Controller($scope)
 	$scope.n;
 	var a = -1.5;
 	var b = 1.5;
-	
+	var Tx = '2*x-('+ b + ' + ' + a + ')/('+ b + ' - ' + a + ')';
+	var T = ['1',Tx];
 	var getMatrixCForXI = function(k, a, b) 
 	{
 		var matrix = [];
@@ -28,9 +29,21 @@ function Lab4Controller($scope)
 		return 'log(cos(x), 2)';
 	}
 	
+	
+	var getFunctionForT = function()
+	{
+		
+		return 'log(cos(x), 2)';
+	}
+	
 	var getFunctionXIWithMain = function(i)
 	{
 		return '(x^' + i + ')*' + getFunction();
+	}
+	
+	var getFunctionTIWithMain = function(i)
+	{
+		return '('+ getTk(i) +')*(' + getFunctionForT() + ')';
 	}
 	
 	var getFunctionXI = function(i)
@@ -38,13 +51,25 @@ function Lab4Controller($scope)
 		return '(x^' + i + ')';
 	}
 	
-	
 	var getFreeCoefForXI = function(k, a, b) 
 	{
 		var intervals = 100;
 		var freeCoef = [];
 		for (var i = 0; i < k; i++) {
 			var fx = 'f(x)=' + getFunctionXIWithMain(i);
+			fx = math.eval(fx);
+			var sell = calculateIntegral(fx, a, b, intervals);
+			freeCoef.push(sell);
+		}
+		return freeCoef;
+	}
+	
+	var getFreeCoefForT = function(k, a, b) 
+	{
+		var intervals = 100;
+		var freeCoef = [];
+		for (var i = 0; i < k; i++) {
+			var fx = 'f(x)=' + getFunctionTIWithMain(i);
 			fx = math.eval(fx);
 			var sell = calculateIntegral(fx, a, b, intervals);
 			freeCoef.push(sell);
@@ -72,7 +97,9 @@ function Lab4Controller($scope)
 		}		
 		
 		generateXI($scope.n);
+		generateTI($scope.n);
 		$scope.processed = true;
+		
 	}
 	
 	var generateXI = function(k) {
@@ -104,6 +131,50 @@ function Lab4Controller($scope)
 		var delta = calculateIntegral(fx, a, b, intervals);
 		delta = math.sqrt(delta);
 		return delta;
+	}
+	
+	var getTk = function(k) 
+	{
+		if (T.length > k) {
+			return T[k];
+		}
+		else {
+			var element = '(2*'+ Tx+')*' + getTk(k-1) + ' - ' + getTk(k-2);
+			T.push(element);
+			return element;
+		}
+	}
+	
+	var getNormForT = function(k) 
+	{
+		var res = 0;
+		if (k == 0) {
+			res = math.pi;
+		}
+		else
+		{
+			res = math.pi/2;
+		}
+		res = math.sqrt(res);
+		return res;		
+	}
+	
+	var generateTI = function(k) {
+		
+		var free = getFreeCoefForT(k, a, b);
+		
+		var f = '' + free[0]/getNormForT(0) + '*' +getTk(0);
+		for (var i = 1;i<k;i++) {
+			f += ' + ' + free[i]/getNormForT(i) + '*' +getTk(i);
+		}
+		
+		//var delta = calculateDeltaXI(f, getFunction(), a, b);
+		
+		var f = 'f(x) = ' + f;
+		
+		$scope.func2 = f;
+		//$scope.cond = cond;
+		//$scope.deltaXI = delta;		
 	}
 	
 }

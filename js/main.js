@@ -24,7 +24,7 @@ var draw = function(FX1, FX2, FX3, fx)
 	      {
 	        target: '#plot',
 	        yDomain: [-20, 20],
-	        xDomain: [-2, 2],
+	        xDomain: [-1.5, 1.5],
 	        width: 800,
   			height: 800,
   			grid: true,
@@ -33,10 +33,10 @@ var draw = function(FX1, FX2, FX3, fx)
 	          fn: math.eval(fx),
 	        },
 	        {
-	          fn: math.eval(FX1),
+	          fn: math.eval(FX2),
 	        },/*
 	        {
-	          fn: math.eval(fx),
+	          fn: math.eval(FX2),
 	        },/*
 	         {
 	          fn: math.eval('f(x) = (sign(sign((2-x)(x-1))+1)*sign(sign(2-x)+1)-(((sign(abs(x-2)))+ 1) mod 2)-(((sign(abs(x-1)))+ 1) mod 2))*2*x '),
