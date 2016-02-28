@@ -7,8 +7,13 @@ function Lab4Controller($scope)
 	$scope.n;
 	var a = -1.5;
 	var b = 1.5;
-	var Tx = '2*x-('+ b + ' + ' + a + ')/('+ b + ' - ' + a + ')';
-	var T = ['1',Tx];
+	var Tx = '(sin(x)*('+ b + ' - ' + a + ') + ' + b + ' + ' + a + ')/2';
+	var TxInvert = '(2*x-' + b + ' - ' + a + ')/('+ b +' - ' +a +')' ;
+	var T = ['1','x'];
+	var TForIntegral = ['1',Tx];
+	var TInvert = ['1', TxInvert];
+	
+	
 	var getMatrixCForXI = function(k, a, b) 
 	{
 		var matrix = [];
@@ -30,10 +35,10 @@ function Lab4Controller($scope)
 	}
 	
 	
-	var getFunctionForT = function()
+	var getFunctionForTIntegral = function()
 	{
 		
-		return 'log(cos(x), 2)';
+		return 'log(cos(' + Tx +' ), 2)';
 	}
 	
 	var getFunctionXIWithMain = function(i)
@@ -41,9 +46,9 @@ function Lab4Controller($scope)
 		return '(x^' + i + ')*' + getFunction();
 	}
 	
-	var getFunctionTIWithMain = function(i)
+	var getFunctionTIWithMainForIntegral = function(i)
 	{
-		return '('+ getTk(i) +')*(' + getFunctionForT() + ')';
+		return '('+ getTkForIntegral(i) +')*(' + getFunctionForTIntegral() + ')';
 	}
 	
 	var getFunctionXI = function(i)
@@ -69,7 +74,7 @@ function Lab4Controller($scope)
 		var intervals = 100;
 		var freeCoef = [];
 		for (var i = 0; i < k; i++) {
-			var fx = 'f(x)=' + getFunctionTIWithMain(i);
+			var fx = 'f(x)=' + getFunctionTIWithMainForIntegral(i);
 			fx = math.eval(fx);
 			var sell = calculateIntegral(fx, a, b, intervals);
 			freeCoef.push(sell);
@@ -139,8 +144,32 @@ function Lab4Controller($scope)
 			return T[k];
 		}
 		else {
-			var element = '(2*'+ Tx+')*' + getTk(k-1) + ' - ' + getTk(k-2);
+			var element = '(2*x)*' + getTk(k-1) + ' - ' + getTk(k-2);
 			T.push(element);
+			return element;
+		}
+	}
+	
+	var getTkInvert = function(k) 
+	{
+		if (TInvert.length > k) {
+			return TInvert[k];
+		}
+		else {
+			var element = '(2*'+TxInvert + ')*' + getTkInvert(k-1) + ' - ' + getTkInvert(k-2);
+			TInvert.push(element);
+			return element;
+		}
+	}
+	
+	var getTkForIntegral = function(k) 
+	{
+		if (TForIntegral.length > k) {
+			return TForIntegral[k];
+		}
+		else {
+			var element = '(2*sin(x))*' + getTkForIntegral(k-1) + ' - ' + getTkForIntegral(k-2);
+			TForIntegral.push(element);
 			return element;
 		}
 	}
@@ -161,20 +190,16 @@ function Lab4Controller($scope)
 	
 	var generateTI = function(k) {
 		
-		var free = getFreeCoefForT(k, a, b);
+		var free = getFreeCoefForT(k, -math.pi/2, math.pi/2);
 		
-		var f = '' + free[0]/getNormForT(0) + '*' +getTk(0);
+		var f = '' + free[0]/getNormForT(0) + '*' +getTkInvert(0);
 		for (var i = 1;i<k;i++) {
-			f += ' + ' + free[i]/getNormForT(i) + '*' +getTk(i);
+			f += ' + ' + free[i]/getNormForT(i) + '*'+getTkInvert(i);
 		}
-		
-		//var delta = calculateDeltaXI(f, getFunction(), a, b);
 		
 		var f = 'f(x) = ' + f;
 		
 		$scope.func2 = f;
-		//$scope.cond = cond;
-		//$scope.deltaXI = delta;		
 	}
 	
 }
