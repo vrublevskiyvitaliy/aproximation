@@ -33,7 +33,7 @@ var draw = function(FX1, FX2, FX3, fx)
 	          fn: math.eval(fx),
 	        },
 	        {
-	          fn: math.eval(FX2),
+	          fn: math.eval(FX1),
 	        },/*
 	        {
 	          fn: math.eval(FX2),

@@ -20,7 +20,7 @@ function Lab4Controller($scope)
 		for (var i = 0; i < k; i++) {
 			var row = [];
 			for(var j = 0; j < k ; j++) {
-				var sell = Math.pow(a, i+j+1) - Math.pow(b,i+j+1);
+				var sell = Math.pow(b, i+j+1) - Math.pow(a,i+j+1);
 				sell /= (i+j+1);
 				row.push(sell);
 			}
@@ -89,7 +89,7 @@ function Lab4Controller($scope)
 		for (var i = 0; i < n;i ++) {
 			sum += (f(a + i*h) + f(a+(i+1)*h))*(h/2);
 		}
-		sum = Math.abs(sum);
+		//sum = Math.abs(sum);
 		return sum;
 	}
 	
