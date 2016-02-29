@@ -7,10 +7,13 @@ function Lab4Controller($scope)
 	$scope.n;
 	var a = -1.5;
 	var b = 1.5;
-	var Tx = '(sin(x)*('+ b + ' - ' + a + ') + ' + b + ' + ' + a + ')/2';
-	var TxInvert = '(2*x-' + b + ' - ' + a + ')/('+ b +' - ' +a +')' ;
+	var bmina = b - a;
+	var bplusa = b+a;
+	var minbmina = -b-a;
+	var Tx = '(sin(x)*('+ bmina + ') + ' + bplusa + ')/2';
+	var TxInvert = '(2*x-('+bplusa + ')/('+ bmina +')';
 	var T = ['1','x'];
-	var TForIntegral = ['1',Tx];
+	var TForIntegral = ['1','sin(x)'];
 	var TInvert = ['1', TxInvert];
 	
 	
