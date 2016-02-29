@@ -8,13 +8,17 @@ function Lab4Controller($scope)
 	var a = -1.5;
 	var b = 1.5;
 	var bmina = b - a;
-	var bplusa = b+a;
+	var bplusa = b + a;
 	var minbmina = -b-a;
-	var Tx = '(sin(x)*('+ bmina + ') + ' + bplusa + ')/2';
-	var TxInvert = '(2*x-('+bplusa + ')/('+ bmina +')';
+	
+	
+	var FxIntegral = '(sin(x)*('+ bmina + ') + ' + bplusa + ')/2';
+	
+	var XInvert =  '(2*x-'+bplusa + ')/('+ bmina +')';
+	
 	var T = ['1','x'];
 	var TForIntegral = ['1','sin(x)'];
-	var TInvert = ['1', TxInvert];
+	var TInvert = ['1', XInvert];
 	
 	
 	var getMatrixCForXI = function(k, a, b) 
@@ -41,7 +45,7 @@ function Lab4Controller($scope)
 	var getFunctionForTIntegral = function()
 	{
 		
-		return 'log(cos(' + Tx +' ), 2)';
+		return 'log(cos(' + FxIntegral +' ), 2)';
 	}
 	
 	var getFunctionXIWithMain = function(i)
@@ -147,7 +151,7 @@ function Lab4Controller($scope)
 			return T[k];
 		}
 		else {
-			var element = '(2*x)*' + getTk(k-1) + ' - ' + getTk(k-2);
+			var element = '((2*x)*' + getTk(k-1) + ' - ' + getTk(k-2) + ')';
 			T.push(element);
 			return element;
 		}
@@ -159,7 +163,7 @@ function Lab4Controller($scope)
 			return TInvert[k];
 		}
 		else {
-			var element = '(2*'+TxInvert + ')*' + getTkInvert(k-1) + ' - ' + getTkInvert(k-2);
+			var element = '((2*'+XInvert + ')*' + getTkInvert(k-1) + ' - ' + getTkInvert(k-2)+')';
 			TInvert.push(element);
 			return element;
 		}
@@ -171,7 +175,7 @@ function Lab4Controller($scope)
 			return TForIntegral[k];
 		}
 		else {
-			var element = '(2*sin(x))*' + getTkForIntegral(k-1) + ' - ' + getTkForIntegral(k-2);
+			var element = '((2*sin(x))*' + getTkForIntegral(k-1) + ' - ' + getTkForIntegral(k-2) + ')';
 			TForIntegral.push(element);
 			return element;
 		}
@@ -183,11 +187,10 @@ function Lab4Controller($scope)
 		if (k == 0) {
 			res = math.pi;
 		}
-		else
-		{
+		else {
 			res = math.pi/2;
 		}
-		res = math.sqrt(res);
+		//res = math.sqrt(res);
 		return res;		
 	}
 	
@@ -195,9 +198,9 @@ function Lab4Controller($scope)
 		
 		var free = getFreeCoefForT(k, -math.pi/2, math.pi/2);
 		
-		var f = '' + free[0]/getNormForT(0) + '*' +getTkInvert(0);
+		var f = '(' + free[0]/getNormForT(0) + ')*' +getTkInvert(0);
 		for (var i = 1;i<k;i++) {
-			f += ' + ' + free[i]/getNormForT(i) + '*'+getTkInvert(i);
+			f += ' + (' + free[i]/getNormForT(i) + ')*'+getTkInvert(i);
 		}
 		
 		var f = 'f(x) = ' + f;
