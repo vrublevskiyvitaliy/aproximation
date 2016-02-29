@@ -197,7 +197,9 @@ function Lab4Controller($scope)
 	var generateTI = function(k) {
 		
 		var free = getFreeCoefForT(k, -math.pi/2, math.pi/2);
-		
+
+
+
 		var f = '(' + free[0]/getNormForT(0) + ')*' +getTkInvert(0);
 		for (var i = 1;i<k;i++) {
 			f += ' + (' + free[i]/getNormForT(i) + ')*'+getTkInvert(i);
@@ -206,6 +208,22 @@ function Lab4Controller($scope)
 		var f = 'f(x) = ' + f;
 		
 		$scope.func2 = f;
+		//calculate deltaTN
+
+		var sumFree = 0;
+
+		for (var i = 0;i<k;i++) {
+			sumFree += (free[i]*free[i])/(getNormForT(i)*getNormForT(i));
+		}
+		var intervals = 100;
+		var ff = 'f(x) = ' + getFunction() + ' * ' + getFunction();
+		ff = math.eval(ff);
+
+		var FIntegral = calculateIntegral(ff,a,b,intervals);
+
+		FIntegral = Math.abs(FIntegral);
+		$scope.deltaTN = Math.abs(FIntegral - sumFree);
+		$scope.deltaTN = Math.sqrt($scope.deltaTN);
 	}
 	
 }

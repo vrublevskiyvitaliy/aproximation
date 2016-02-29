@@ -104,49 +104,18 @@
                         </div>
                     </div>
                 </div>
-				<div class="row" ng-show="processed">
-                    <div class="col-lg-12"> 
-						<div>
-                           Точність наближення x^i = {{deltaXI | number: 5}}
-                        </div>
-						<div>
-                           Обумовленість матриці = {{cond | number: 5}}
-                        </div>
-						
-						<div class="alert alert-warning"> 
-                           Точність кубічного сплайну = {{epsCub | number: 5}}
-                        </div>
-                    </div>
-				</div>
                 <div class="row" ng-show="processed">
-                    <div class="col-lg-12"> 
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Рівновіддалені вузли:</h3>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table">
-                                    <tr>
-                                        <th>x<sub>i</sub></th>
-                                        <td data-ng-repeat="x in xR">{{x | number: 3}}</td>
-                                    </tr>
-                                     <tr>
-                                        <th>y<sub>i</sub></th>
-                                        <td data-ng-repeat="y in yR">{{y | number: 3}}</td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
 					<div class="row" ng-show="processed">
                     <div class="col-lg-12"> 
 
-                        <div class="alert alert-warning"> 
-                           Точність лінійного сплайну = {{epsLin | number: 5}}
+                        <div class="alert alert-warning">
+                            Точність наближення x^i = {{deltaXI | number: 5}}
                         </div>
-						<div class="alert alert-warning"> 
-                           Точність кубічного сплайну = {{epsCub | number: 5}}
+						<div class="alert alert-warning">
+                            Обумовленість матриці = {{cond | number: 5}}
+                        </div>
+                        <div class="alert alert-warning">
+                            Точність наближення T(n) = {{deltaTN | number: 5}}
                         </div>
                     </div>
 					</div>
